@@ -1,11 +1,1884 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Teste de Funcionamento</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Alexandre Global — Marketplace B2B Premium para Moda, Joias e Imóveis de Alto Padrão. Conectamos negócios de luxo ao mundo.">
+<meta property="og:title" content="Alexandre Global | Conectamos Negócios de Luxo ao Mundo">
+<meta property="og:description" content="Marketplace B2B premium para moda, joias e imóveis de alto padrão. 2.500+ fornecedores verificados.">
+<title>Alexandre Global | Conectamos Negócios de Luxo ao Mundo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --gold: #C9A84C;
+    --gold-light: #E8C97A;
+    --gold-pale: #F5E9C8;
+    --black: #0A0A0A;
+    --dark: #111111;
+    --dark2: #1A1A1A;
+    --dark3: #222222;
+    --gray: #888888;
+    --gray-light: #CCCCCC;
+    --white: #FAFAF8;
+    --champagne: #F7EDD8;
+    --font-serif: 'Cormorant Garamond', Georgia, serif;
+    --font-sans: 'Montserrat', sans-serif;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--black);
+    color: var(--white);
+    font-family: var(--font-sans);
+    font-weight: 300;
+    overflow-x: hidden;
+    cursor: default;
+  }
+
+  /* ─── SCROLLBAR ─── */
+  ::-webkit-scrollbar { width: 4px; }
+  ::-webkit-scrollbar-track { background: var(--dark); }
+  ::-webkit-scrollbar-thumb { background: var(--gold); border-radius: 2px; }
+
+  /* ─── NOISE OVERLAY ─── */
+  body::before {
+    content: '';
+    position: fixed; inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+    pointer-events: none; z-index: 9999; opacity: 0.4;
+  }
+
+  /* ─── NAVBAR ─── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 5%;
+    height: 72px;
+    background: rgba(10,10,10,0.92);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid rgba(201,168,76,0.15);
+    transition: all 0.3s ease;
+  }
+
+  nav.scrolled {
+    height: 60px;
+    background: rgba(10,10,10,0.98);
+    border-bottom-color: rgba(201,168,76,0.3);
+  }
+
+  .nav-logo {
+    font-family: var(--font-serif);
+    font-size: 1.4rem;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    color: var(--white);
+    text-decoration: none;
+    display: flex; align-items: center; gap: 10px;
+  }
+
+  .nav-logo span {
+    color: var(--gold);
+    font-weight: 300;
+    font-style: italic;
+  }
+
+  .logo-diamond {
+    width: 8px; height: 8px;
+    background: var(--gold);
+    transform: rotate(45deg);
+    flex-shrink: 0;
+  }
+
+  .nav-links {
+    display: flex; align-items: center; gap: 2.5rem;
+    list-style: none;
+  }
+
+  .nav-links a {
+    font-size: 0.7rem;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--gray-light);
+    text-decoration: none;
+    transition: color 0.3s;
+    position: relative;
+  }
+
+  .nav-links a::after {
+    content: '';
+    position: absolute; bottom: -4px; left: 0; right: 0;
+    height: 1px; background: var(--gold);
+    transform: scaleX(0); transform-origin: left;
+    transition: transform 0.3s ease;
+  }
+
+  .nav-links a:hover { color: var(--gold); }
+  .nav-links a:hover::after { transform: scaleX(1); }
+
+  .nav-cta {
+    background: transparent;
+    border: 1px solid var(--gold);
+    color: var(--gold) !important;
+    padding: 8px 20px;
+    font-size: 0.65rem !important;
+    letter-spacing: 0.2em !important;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.3s !important;
+  }
+
+  .nav-cta:hover {
+    background: var(--gold) !important;
+    color: var(--black) !important;
+  }
+
+  .nav-cta::after { display: none !important; }
+
+  .hamburger {
+    display: none;
+    flex-direction: column; gap: 5px;
+    cursor: pointer; padding: 5px;
+  }
+
+  .hamburger span {
+    display: block; width: 24px; height: 1px;
+    background: var(--gold); transition: all 0.3s;
+  }
+
+  /* ─── HERO ─── */
+  #hero {
+    min-height: 100vh;
+    display: flex; flex-direction: column;
+    justify-content: center; align-items: flex-start;
+    padding: 0 5% 0 8%;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-bg {
+    position: absolute; inset: 0;
+    background:
+      radial-gradient(ellipse 80% 60% at 70% 50%, rgba(201,168,76,0.06) 0%, transparent 70%),
+      radial-gradient(ellipse 40% 40% at 20% 80%, rgba(201,168,76,0.04) 0%, transparent 60%),
+      linear-gradient(135deg, #0A0A0A 0%, #111111 50%, #0D0D0D 100%);
+  }
+
+  .hero-grid {
+    position: absolute; inset: 0;
+    background-image:
+      linear-gradient(rgba(201,168,76,0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(201,168,76,0.04) 1px, transparent 1px);
+    background-size: 60px 60px;
+    mask-image: radial-gradient(ellipse 70% 70% at 70% 50%, black 0%, transparent 80%);
+  }
+
+  .hero-line {
+    position: absolute; left: 5%; top: 0; bottom: 0;
+    width: 1px; background: linear-gradient(to bottom, transparent, rgba(201,168,76,0.3) 30%, rgba(201,168,76,0.3) 70%, transparent);
+  }
+
+  .hero-content { position: relative; z-index: 2; max-width: 700px; }
+
+  .hero-badge {
+    display: inline-flex; align-items: center; gap: 10px;
+    font-size: 0.65rem; font-weight: 500; letter-spacing: 0.25em;
+    text-transform: uppercase; color: var(--gold);
+    margin-bottom: 2rem;
+    opacity: 0; animation: fadeUp 0.8s ease 0.3s forwards;
+  }
+
+  .hero-badge::before, .hero-badge::after {
+    content: ''; display: block; width: 30px; height: 1px; background: var(--gold);
+  }
+
+  .hero-title {
+    font-family: var(--font-serif);
+    font-size: clamp(3rem, 7vw, 6rem);
+    font-weight: 300;
+    line-height: 1.05;
+    letter-spacing: -0.01em;
+    margin-bottom: 1.5rem;
+    opacity: 0; animation: fadeUp 0.8s ease 0.5s forwards;
+  }
+
+  .hero-title em {
+    font-style: italic; color: var(--gold); font-weight: 300;
+  }
+
+  .hero-subtitle {
+    font-size: 0.9rem; font-weight: 300; letter-spacing: 0.05em;
+    line-height: 1.8; color: rgba(255,255,255,0.6);
+    max-width: 480px; margin-bottom: 3rem;
+    opacity: 0; animation: fadeUp 0.8s ease 0.7s forwards;
+  }
+
+  .hero-actions {
+    display: flex; align-items: center; gap: 1.5rem; flex-wrap: wrap;
+    opacity: 0; animation: fadeUp 0.8s ease 0.9s forwards;
+  }
+
+  .btn-primary {
+    background: var(--gold);
+    color: var(--black);
+    border: none;
+    padding: 15px 36px;
+    font-family: var(--font-sans);
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-block;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .btn-primary::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: var(--gold-light);
+    transform: translateX(-100%);
+    transition: transform 0.3s ease;
+  }
+
+  .btn-primary:hover::before { transform: translateX(0); }
+  .btn-primary span { position: relative; z-index: 1; }
+  .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(201,168,76,0.4); }
+
+  .btn-outline {
+    background: transparent;
+    color: var(--white);
+    border: 1px solid rgba(255,255,255,0.2);
+    padding: 15px 36px;
+    font-family: var(--font-sans);
+    font-size: 0.7rem;
+    font-weight: 500;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-block;
+    transition: all 0.3s ease;
+  }
+
+  .btn-outline:hover {
+    border-color: var(--gold);
+    color: var(--gold);
+    transform: translateY(-2px);
+  }
+
+  .hero-stats {
+    position: absolute; right: 8%; bottom: 12%;
+    display: flex; flex-direction: column; gap: 2rem;
+    opacity: 0; animation: fadeLeft 0.8s ease 1.1s forwards;
+  }
+
+  .stat-item { text-align: right; }
+
+  .stat-num {
+    font-family: var(--font-serif);
+    font-size: 2.4rem;
+    font-weight: 300;
+    color: var(--gold);
+    line-height: 1;
+    display: block;
+  }
+
+  .stat-label {
+    font-size: 0.6rem;
+    font-weight: 500;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.4);
+    margin-top: 4px;
+    display: block;
+  }
+
+  .hero-scroll {
+    position: absolute; bottom: 3rem; left: 50%; transform: translateX(-50%);
+    display: flex; flex-direction: column; align-items: center; gap: 8px;
+    opacity: 0; animation: fadeUp 0.8s ease 1.3s forwards;
+    cursor: pointer;
+  }
+
+  .hero-scroll span {
+    font-size: 0.55rem; letter-spacing: 0.3em; text-transform: uppercase;
+    color: rgba(255,255,255,0.3);
+  }
+
+  .scroll-line {
+    width: 1px; height: 50px;
+    background: linear-gradient(to bottom, rgba(201,168,76,0.6), transparent);
+    animation: scrollPulse 2s ease-in-out infinite;
+  }
+
+  /* ─── SECTION COMMONS ─── */
+  section { padding: 8rem 5%; }
+
+  .section-label {
+    font-size: 0.6rem; font-weight: 600; letter-spacing: 0.35em;
+    text-transform: uppercase; color: var(--gold);
+    display: flex; align-items: center; gap: 12px;
+    margin-bottom: 1.2rem;
+  }
+
+  .section-label::before {
+    content: ''; display: block; width: 40px; height: 1px; background: var(--gold);
+  }
+
+  .section-title {
+    font-family: var(--font-serif);
+    font-size: clamp(2.2rem, 4.5vw, 3.8rem);
+    font-weight: 300;
+    line-height: 1.15;
+    letter-spacing: -0.01em;
+    margin-bottom: 1.5rem;
+  }
+
+  .section-title em { font-style: italic; color: var(--gold); }
+
+  .section-body {
+    font-size: 0.88rem;
+    line-height: 1.9;
+    color: rgba(255,255,255,0.55);
+    max-width: 520px;
+  }
+
+  /* ─── MARQUEE ─── */
+  .marquee-section {
+    padding: 1.5rem 0;
+    background: var(--gold);
+    overflow: hidden;
+    white-space: nowrap;
+  }
+
+  .marquee-track {
+    display: inline-flex; gap: 3rem;
+    animation: marquee 30s linear infinite;
+  }
+
+  .marquee-item {
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--black);
+    display: flex; align-items: center; gap: 1.5rem;
+  }
+
+  .marquee-item::after {
+    content: '◆';
+    font-size: 0.4rem;
+  }
+
+  /* ─── HOW IT WORKS ─── */
+  #como-funciona { background: var(--dark); }
+
+  .steps-container {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 2px; margin-top: 5rem;
+    border: 1px solid rgba(201,168,76,0.1);
+  }
+
+  .step-card {
+    padding: 3rem 2.5rem;
+    background: var(--dark2);
+    position: relative;
+    transition: background 0.3s;
+    overflow: hidden;
+  }
+
+  .step-card::before {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    transform: scaleX(0);
+    transition: transform 0.4s ease;
+  }
+
+  .step-card:hover { background: var(--dark3); }
+  .step-card:hover::before { transform: scaleX(1); }
+
+  .step-num {
+    font-family: var(--font-serif);
+    font-size: 4rem;
+    font-weight: 300;
+    color: rgba(201,168,76,0.12);
+    line-height: 1;
+    margin-bottom: 1.5rem;
+    display: block;
+  }
+
+  .step-icon {
+    font-size: 1.8rem;
+    margin-bottom: 1.2rem;
+    display: block;
+  }
+
+  .step-title {
+    font-family: var(--font-serif);
+    font-size: 1.3rem;
+    font-weight: 400;
+    margin-bottom: 0.8rem;
+    color: var(--white);
+  }
+
+  .step-desc {
+    font-size: 0.8rem;
+    line-height: 1.8;
+    color: rgba(255,255,255,0.45);
+  }
+
+  /* ─── CATEGORIES ─── */
+  #categorias { background: var(--black); }
+
+  .categories-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: auto;
+    gap: 2px;
+    margin-top: 5rem;
+  }
+
+  .cat-card {
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+    aspect-ratio: 4/3;
+    background: var(--dark2);
+  }
+
+  .cat-card:first-child {
+    grid-column: 1; grid-row: 1 / 3;
+    aspect-ratio: unset;
+  }
+
+  .cat-bg {
+    position: absolute; inset: 0;
+    transition: transform 0.6s ease;
+  }
+
+  .cat-card:hover .cat-bg { transform: scale(1.05); }
+
+  .cat-bg-1 { background: linear-gradient(135deg, #1a0a0a 0%, #2d1515 40%, #1a0808 100%); }
+  .cat-bg-2 { background: linear-gradient(135deg, #0a0f1a 0%, #0d1830 50%, #060e1f 100%); }
+  .cat-bg-3 { background: linear-gradient(135deg, #0a1a0a 0%, #122812 50%, #081508 100%); }
+  .cat-bg-4 { background: linear-gradient(135deg, #1a1208 0%, #2d2010 50%, #1a1008 100%); }
+
+  .cat-pattern {
+    position: absolute; inset: 0; opacity: 0.07;
+    background-image: radial-gradient(circle, var(--gold) 1px, transparent 1px);
+    background-size: 25px 25px;
+  }
+
+  .cat-content {
+    position: absolute; inset: 0;
+    display: flex; flex-direction: column;
+    justify-content: flex-end;
+    padding: 2.5rem;
+    background: linear-gradient(to top, rgba(0,0,0,0.7) 0%, transparent 60%);
+  }
+
+  .cat-emoji { font-size: 2.5rem; margin-bottom: 1rem; display: block; }
+
+  .cat-title {
+    font-family: var(--font-serif);
+    font-size: 1.6rem;
+    font-weight: 400;
+    color: var(--white);
+    margin-bottom: 0.4rem;
+  }
+
+  .cat-count {
+    font-size: 0.65rem; letter-spacing: 0.2em;
+    text-transform: uppercase; color: var(--gold);
+  }
+
+  .cat-arrow {
+    position: absolute; top: 1.5rem; right: 1.5rem;
+    width: 36px; height: 36px;
+    border: 1px solid rgba(201,168,76,0.3);
+    display: flex; align-items: center; justify-content: center;
+    color: var(--gold); font-size: 0.9rem;
+    opacity: 0; transform: translateY(5px);
+    transition: all 0.3s ease;
+  }
+
+  .cat-card:hover .cat-arrow { opacity: 1; transform: translateY(0); }
+
+  /* ─── FEATURES ─── */
+  #vantagens {
+    background: var(--dark);
+    position: relative; overflow: hidden;
+  }
+
+  #vantagens::before {
+    content: '';
+    position: absolute; top: -200px; right: -200px;
+    width: 600px; height: 600px;
+    background: radial-gradient(circle, rgba(201,168,76,0.04) 0%, transparent 70%);
+  }
+
+  .features-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6rem;
+    align-items: center;
+    margin-top: 5rem;
+  }
+
+  .feature-list { display: flex; flex-direction: column; gap: 0; }
+
+  .feature-item {
+    padding: 2rem 0;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+    display: flex; gap: 2rem; align-items: flex-start;
+    cursor: pointer;
+    transition: all 0.3s;
+  }
+
+  .feature-item:hover { padding-left: 1rem; }
+
+  .feature-icon-box {
+    width: 48px; height: 48px; flex-shrink: 0;
+    border: 1px solid rgba(201,168,76,0.2);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.2rem;
+    transition: all 0.3s;
+  }
+
+  .feature-item:hover .feature-icon-box {
+    background: rgba(201,168,76,0.1);
+    border-color: var(--gold);
+  }
+
+  .feature-text h4 {
+    font-family: var(--font-serif);
+    font-size: 1.1rem;
+    font-weight: 400;
+    margin-bottom: 0.4rem;
+  }
+
+  .feature-text p {
+    font-size: 0.78rem;
+    line-height: 1.7;
+    color: rgba(255,255,255,0.45);
+  }
+
+  .features-visual {
+    position: relative;
+  }
+
+  .visual-card {
+    background: var(--dark2);
+    border: 1px solid rgba(201,168,76,0.1);
+    padding: 3rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .visual-card::before {
+    content: '';
+    position: absolute; top: 0; left: 0;
+    width: 100%; height: 2px;
+    background: linear-gradient(90deg, var(--gold), transparent);
+  }
+
+  .visual-badge {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-size: 0.6rem; letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--gold); margin-bottom: 2rem;
+  }
+
+  .badge-dot {
+    width: 6px; height: 6px;
+    background: var(--gold); border-radius: 50%;
+    animation: pulse 2s ease-in-out infinite;
+  }
+
+  .visual-title {
+    font-family: var(--font-serif);
+    font-size: 2rem; font-weight: 300;
+    line-height: 1.3; margin-bottom: 2rem;
+  }
+
+  .visual-stats {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 1px; background: rgba(201,168,76,0.1);
+  }
+
+  .vstat {
+    background: var(--dark2);
+    padding: 1.5rem;
+    text-align: center;
+  }
+
+  .vstat-n {
+    font-family: var(--font-serif);
+    font-size: 2rem; color: var(--gold); display: block;
+  }
+
+  .vstat-l {
+    font-size: 0.6rem; letter-spacing: 0.15em;
+    text-transform: uppercase; color: rgba(255,255,255,0.4);
+    margin-top: 4px; display: block;
+  }
+
+  /* ─── TESTIMONIALS ─── */
+  #depoimentos { background: var(--black); }
+
+  .testimonials-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    gap: 2px; margin-top: 5rem;
+  }
+
+  .testi-card {
+    background: var(--dark2);
+    padding: 2.5rem;
+    position: relative;
+    transition: transform 0.3s;
+  }
+
+  .testi-card:hover { transform: translateY(-4px); }
+
+  .testi-quote {
+    font-family: var(--font-serif);
+    font-size: 3rem; color: var(--gold);
+    opacity: 0.3; line-height: 0.8;
+    margin-bottom: 1.5rem;
+  }
+
+  .testi-text {
+    font-family: var(--font-serif);
+    font-size: 1.05rem;
+    font-style: italic;
+    line-height: 1.7;
+    color: rgba(255,255,255,0.8);
+    margin-bottom: 2rem;
+  }
+
+  .testi-author {
+    display: flex; align-items: center; gap: 1rem;
+  }
+
+  .testi-avatar {
+    width: 44px; height: 44px; border-radius: 50%;
+    background: linear-gradient(135deg, var(--gold), var(--gold-light));
+    display: flex; align-items: center; justify-content: center;
+    font-family: var(--font-serif);
+    font-size: 1.1rem; font-weight: 400; color: var(--black);
+    flex-shrink: 0;
+  }
+
+  .testi-name {
+    font-size: 0.8rem; font-weight: 600; letter-spacing: 0.05em;
+    color: var(--white); display: block;
+  }
+
+  .testi-role {
+    font-size: 0.65rem; letter-spacing: 0.1em;
+    color: var(--gold); margin-top: 2px; display: block;
+  }
+
+  .stars { color: var(--gold); font-size: 0.7rem; letter-spacing: 0.1em; margin-bottom: 1.2rem; }
+
+  /* ─── PRICING ─── */
+  #planos {
+    background: var(--dark);
+    position: relative; overflow: hidden;
+  }
+
+  #planos::after {
+    content: '';
+    position: absolute; bottom: -300px; left: 50%; transform: translateX(-50%);
+    width: 800px; height: 600px;
+    background: radial-gradient(ellipse, rgba(201,168,76,0.05) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .plans-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    gap: 2px; margin-top: 5rem; position: relative; z-index: 1;
+  }
+
+  .plan-card {
+    background: var(--dark2);
+    padding: 3rem 2.5rem;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.3s;
+  }
+
+  .plan-card.featured {
+    background: linear-gradient(160deg, #1e1600 0%, #2a1e00 100%);
+    border: 1px solid rgba(201,168,76,0.4);
+  }
+
+  .plan-card.featured::before {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--gold), var(--gold-light), var(--gold));
+  }
+
+  .plan-card:hover { transform: translateY(-6px); }
+
+  .plan-badge {
+    display: inline-block;
+    font-size: 0.55rem; font-weight: 700; letter-spacing: 0.25em;
+    text-transform: uppercase; color: var(--black);
+    background: var(--gold); padding: 4px 12px;
+    margin-bottom: 1.5rem;
+  }
+
+  .plan-name {
+    font-family: var(--font-serif);
+    font-size: 1.6rem; font-weight: 300;
+    margin-bottom: 0.5rem;
+  }
+
+  .plan-desc {
+    font-size: 0.75rem; color: rgba(255,255,255,0.4);
+    line-height: 1.6; margin-bottom: 2rem;
+  }
+
+  .plan-price {
+    margin-bottom: 2.5rem;
+  }
+
+  .plan-price .currency {
+    font-size: 1rem; color: var(--gold);
+    font-weight: 500; vertical-align: top;
+    margin-top: 8px; display: inline-block;
+  }
+
+  .plan-price .amount {
+    font-family: var(--font-serif);
+    font-size: 3.5rem; font-weight: 300; color: var(--white);
+    line-height: 1;
+  }
+
+  .plan-price .period {
+    font-size: 0.7rem; color: rgba(255,255,255,0.4);
+    margin-left: 4px;
+  }
+
+  .plan-features {
+    list-style: none;
+    display: flex; flex-direction: column; gap: 0.8rem;
+    margin-bottom: 2.5rem;
+  }
+
+  .plan-features li {
+    font-size: 0.78rem;
+    color: rgba(255,255,255,0.65);
+    display: flex; align-items: flex-start; gap: 10px;
+    line-height: 1.5;
+  }
+
+  .plan-features li::before {
+    content: '◆'; color: var(--gold);
+    font-size: 0.4rem; margin-top: 5px; flex-shrink: 0;
+  }
+
+  .plan-features li.disabled { color: rgba(255,255,255,0.2); }
+  .plan-features li.disabled::before { color: rgba(255,255,255,0.1); }
+
+  .plan-btn {
+    display: block; width: 100%;
+    padding: 14px;
+    font-family: var(--font-sans);
+    font-size: 0.65rem; font-weight: 600; letter-spacing: 0.2em;
+    text-transform: uppercase; text-align: center;
+    text-decoration: none; cursor: pointer; border: none;
+    transition: all 0.3s;
+  }
+
+  .plan-btn-gold {
+    background: var(--gold); color: var(--black);
+  }
+
+  .plan-btn-gold:hover {
+    background: var(--gold-light);
+    transform: translateY(-2px); box-shadow: 0 6px 24px rgba(201,168,76,0.35);
+  }
+
+  .plan-btn-outline {
+    background: transparent;
+    border: 1px solid rgba(255,255,255,0.15);
+    color: var(--white);
+  }
+
+  .plan-btn-outline:hover {
+    border-color: var(--gold); color: var(--gold);
+  }
+
+  /* ─── FAQ ─── */
+  #faq { background: var(--black); }
+
+  .faq-container {
+    max-width: 780px; margin: 5rem auto 0;
+  }
+
+  .faq-item {
+    border-bottom: 1px solid rgba(255,255,255,0.07);
+  }
+
+  .faq-question {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 1.8rem 0; cursor: pointer;
+    gap: 1rem;
+  }
+
+  .faq-question h4 {
+    font-family: var(--font-serif);
+    font-size: 1.1rem; font-weight: 400;
+    color: var(--white); line-height: 1.4;
+  }
+
+  .faq-icon {
+    width: 32px; height: 32px; flex-shrink: 0;
+    border: 1px solid rgba(201,168,76,0.25);
+    display: flex; align-items: center; justify-content: center;
+    color: var(--gold); font-size: 1rem;
+    transition: all 0.3s;
+  }
+
+  .faq-item.open .faq-icon { background: var(--gold); color: var(--black); transform: rotate(45deg); }
+
+  .faq-answer {
+    max-height: 0; overflow: hidden;
+    transition: max-height 0.4s ease, padding 0.3s;
+  }
+
+  .faq-item.open .faq-answer { max-height: 300px; padding-bottom: 1.5rem; }
+
+  .faq-answer p {
+    font-size: 0.83rem; line-height: 1.9;
+    color: rgba(255,255,255,0.5);
+  }
+
+  /* ─── CTA BANNER ─── */
+  #cta-banner {
+    padding: 6rem 5%;
+    background: linear-gradient(135deg, #1a1200 0%, #2a1e00 50%, #1a1200 100%);
+    border-top: 1px solid rgba(201,168,76,0.15);
+    border-bottom: 1px solid rgba(201,168,76,0.15);
+    text-align: center; position: relative; overflow: hidden;
+  }
+
+  #cta-banner::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse 60% 80% at 50% 50%, rgba(201,168,76,0.08) 0%, transparent 70%);
+  }
+
+  .cta-content { position: relative; z-index: 1; }
+
+  .cta-title {
+    font-family: var(--font-serif);
+    font-size: clamp(2.2rem, 5vw, 4rem);
+    font-weight: 300; margin-bottom: 1.2rem;
+    line-height: 1.15;
+  }
+
+  .cta-title em { font-style: italic; color: var(--gold); }
+
+  .cta-sub {
+    font-size: 0.85rem; color: rgba(255,255,255,0.5);
+    max-width: 500px; margin: 0 auto 2.5rem;
+    line-height: 1.8;
+  }
+
+  .cta-actions {
+    display: flex; justify-content: center;
+    gap: 1rem; flex-wrap: wrap;
+  }
+
+  /* ─── CONTACT ─── */
+  #contato { background: var(--dark); }
+
+  .contact-grid {
+    display: grid; grid-template-columns: 1fr 1.4fr;
+    gap: 6rem; margin-top: 5rem;
+  }
+
+  .contact-info { display: flex; flex-direction: column; gap: 2.5rem; }
+
+  .contact-item { display: flex; gap: 1.5rem; align-items: flex-start; }
+
+  .contact-icon {
+    width: 48px; height: 48px; flex-shrink: 0;
+    border: 1px solid rgba(201,168,76,0.2);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.2rem;
+  }
+
+  .contact-label {
+    font-size: 0.6rem; letter-spacing: 0.2em;
+    text-transform: uppercase; color: var(--gold);
+    margin-bottom: 5px; display: block;
+  }
+
+  .contact-value {
+    font-family: var(--font-serif);
+    font-size: 1rem; color: var(--white);
+  }
+
+  .contact-form { display: flex; flex-direction: column; gap: 1.2rem; }
+
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1.2rem; }
+
+  .form-group { display: flex; flex-direction: column; gap: 8px; }
+
+  .form-group label {
+    font-size: 0.6rem; letter-spacing: 0.2em;
+    text-transform: uppercase; color: rgba(255,255,255,0.4);
+  }
+
+  .form-group input,
+  .form-group select,
+  .form-group textarea {
+    background: var(--dark2);
+    border: 1px solid rgba(255,255,255,0.08);
+    color: var(--white);
+    padding: 14px 16px;
+    font-family: var(--font-sans);
+    font-size: 0.82rem;
+    font-weight: 300;
+    outline: none;
+    transition: border-color 0.3s;
+    resize: none;
+  }
+
+  .form-group input:focus,
+  .form-group select:focus,
+  .form-group textarea:focus {
+    border-color: rgba(201,168,76,0.4);
+  }
+
+  .form-group select { appearance: none; cursor: pointer; }
+  .form-group select option { background: var(--dark); }
+
+  /* ─── FOOTER ─── */
+  footer {
+    background: #070707;
+    border-top: 1px solid rgba(201,168,76,0.1);
+    padding: 5rem 5% 2rem;
+  }
+
+  .footer-grid {
+    display: grid; grid-template-columns: 2fr 1fr 1fr 1fr;
+    gap: 4rem; margin-bottom: 4rem;
+  }
+
+  .footer-brand { }
+
+  .footer-logo {
+    font-family: var(--font-serif);
+    font-size: 1.5rem; font-weight: 500;
+    letter-spacing: 0.1em; color: var(--white);
+    margin-bottom: 1.2rem;
+  }
+
+  .footer-logo span { color: var(--gold); font-style: italic; font-weight: 300; }
+
+  .footer-tagline {
+    font-size: 0.78rem; line-height: 1.8;
+    color: rgba(255,255,255,0.35); max-width: 280px;
+    margin-bottom: 2rem;
+  }
+
+  .footer-social {
+    display: flex; gap: 10px;
+  }
+
+  .social-btn {
+    width: 38px; height: 38px;
+    border: 1px solid rgba(255,255,255,0.1);
+    display: flex; align-items: center; justify-content: center;
+    color: rgba(255,255,255,0.4); font-size: 0.85rem;
+    text-decoration: none; transition: all 0.3s;
+    cursor: pointer;
+  }
+
+  .social-btn:hover {
+    border-color: var(--gold); color: var(--gold);
+  }
+
+  .footer-col h5 {
+    font-size: 0.6rem; font-weight: 700;
+    letter-spacing: 0.25em; text-transform: uppercase;
+    color: var(--gold); margin-bottom: 1.5rem;
+  }
+
+  .footer-links { list-style: none; display: flex; flex-direction: column; gap: 0.8rem; }
+
+  .footer-links a {
+    font-size: 0.78rem; color: rgba(255,255,255,0.4);
+    text-decoration: none; transition: color 0.3s;
+    letter-spacing: 0.03em;
+  }
+
+  .footer-links a:hover { color: var(--gold); }
+
+  .footer-bottom {
+    border-top: 1px solid rgba(255,255,255,0.06);
+    padding-top: 2rem;
+    display: flex; justify-content: space-between; align-items: center;
+    flex-wrap: wrap; gap: 1rem;
+  }
+
+  .footer-copy {
+    font-size: 0.7rem; color: rgba(255,255,255,0.25);
+    letter-spacing: 0.05em;
+  }
+
+  .footer-legal {
+    display: flex; gap: 2rem;
+  }
+
+  .footer-legal a {
+    font-size: 0.65rem; color: rgba(255,255,255,0.25);
+    text-decoration: none; letter-spacing: 0.08em;
+    transition: color 0.3s;
+  }
+
+  .footer-legal a:hover { color: var(--gold); }
+
+  /* ─── TRUST BAR ─── */
+  .trust-bar {
+    background: var(--dark2);
+    border-top: 1px solid rgba(201,168,76,0.08);
+    border-bottom: 1px solid rgba(201,168,76,0.08);
+    padding: 2.5rem 5%;
+    display: flex; justify-content: center; align-items: center;
+    flex-wrap: wrap; gap: 3rem;
+  }
+
+  .trust-item {
+    display: flex; align-items: center; gap: 12px;
+    font-size: 0.7rem; letter-spacing: 0.1em;
+    color: rgba(255,255,255,0.4);
+  }
+
+  .trust-item span:first-child { font-size: 1.2rem; }
+
+  /* ─── WHATSAPP FLOAT ─── */
+  .whatsapp-float {
+    position: fixed; bottom: 2rem; right: 2rem;
+    z-index: 500;
+    display: flex; flex-direction: column; align-items: flex-end; gap: 8px;
+  }
+
+  .whatsapp-bubble {
+    background: #25D366;
+    width: 56px; height: 56px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.5rem; cursor: pointer;
+    box-shadow: 0 4px 20px rgba(37,211,102,0.4);
+    transition: transform 0.3s;
+    text-decoration: none;
+  }
+
+  .whatsapp-bubble:hover { transform: scale(1.1); }
+
+  .whatsapp-label {
+    background: var(--dark2);
+    border: 1px solid rgba(201,168,76,0.2);
+    padding: 6px 14px; border-radius: 20px;
+    font-size: 0.65rem; letter-spacing: 0.1em;
+    color: var(--white); opacity: 0;
+    transform: translateX(10px);
+    transition: all 0.3s; white-space: nowrap;
+  }
+
+  .whatsapp-float:hover .whatsapp-label {
+    opacity: 1; transform: translateX(0);
+  }
+
+  /* ─── MOBILE MENU ─── */
+  .mobile-menu {
+    position: fixed; inset: 0; z-index: 999;
+    background: var(--black);
+    display: flex; flex-direction: column;
+    justify-content: center; align-items: center; gap: 2rem;
+    opacity: 0; pointer-events: none;
+    transition: opacity 0.3s;
+  }
+
+  .mobile-menu.open { opacity: 1; pointer-events: all; }
+
+  .mobile-menu a {
+    font-family: var(--font-serif);
+    font-size: 2rem; font-weight: 300;
+    color: var(--white); text-decoration: none;
+    letter-spacing: 0.05em; transition: color 0.3s;
+  }
+
+  .mobile-menu a:hover { color: var(--gold); }
+
+  /* ─── DIVIDER ─── */
+  .gold-divider {
+    display: flex; align-items: center; gap: 1.5rem;
+    margin: 0 auto 3rem;
+    justify-content: center;
+  }
+
+  .gold-divider::before, .gold-divider::after {
+    content: ''; flex: 1; max-width: 120px;
+    height: 1px; background: rgba(201,168,76,0.3);
+  }
+
+  .gold-divider span {
+    color: var(--gold); font-size: 0.6rem;
+    letter-spacing: 0.3em; text-transform: uppercase; font-weight: 600;
+  }
+
+  /* ─── ANIMATIONS ─── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes fadeLeft {
+    from { opacity: 0; transform: translateX(30px); }
+    to { opacity: 1; transform: translateX(0); }
+  }
+
+  @keyframes marquee {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+
+  @keyframes scrollPulse {
+    0%, 100% { opacity: 0.6; }
+    50% { opacity: 1; }
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.5; transform: scale(0.8); }
+  }
+
+  .reveal {
+    opacity: 0; transform: translateY(40px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+  }
+
+  .reveal.visible {
+    opacity: 1; transform: translateY(0);
+  }
+
+  /* ─── RESPONSIVE ─── */
+  @media (max-width: 1024px) {
+    .features-grid { grid-template-columns: 1fr; gap: 3rem; }
+    .contact-grid { grid-template-columns: 1fr; gap: 3rem; }
+    .footer-grid { grid-template-columns: 1fr 1fr; }
+    .hero-stats { display: none; }
+    .categories-grid { grid-template-columns: 1fr; }
+    .cat-card:first-child { aspect-ratio: 4/3; grid-row: auto; grid-column: auto; }
+  }
+
+  @media (max-width: 768px) {
+    .nav-links { display: none; }
+    .hamburger { display: flex; }
+    section { padding: 5rem 5%; }
+    .steps-container { grid-template-columns: 1fr; }
+    .testimonials-grid { grid-template-columns: 1fr; }
+    .plans-grid { grid-template-columns: 1fr; }
+    .form-row { grid-template-columns: 1fr; }
+    .footer-grid { grid-template-columns: 1fr; }
+    .footer-bottom { flex-direction: column; text-align: center; }
+    .hero-title { font-size: clamp(2.5rem, 10vw, 4rem); }
+    .trust-bar { gap: 1.5rem; }
+  }
+</style>
 </head>
 <body>
-    <h1>O site está carregando corretamente!</h1>
+
+<!-- MOBILE MENU -->
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#como-funciona" onclick="toggleMenu()">Como Funciona</a>
+  <a href="#categorias" onclick="toggleMenu()">Categorias</a>
+  <a href="#vantagens" onclick="toggleMenu()">Vantagens</a>
+  <a href="#planos" onclick="toggleMenu()">Planos</a>
+  <a href="#contato" onclick="toggleMenu()">Contato</a>
+</div>
+
+<!-- NAVBAR -->
+<nav id="navbar">
+  <a href="#" class="nav-logo">
+    <div class="logo-diamond"></div>
+    ALEXANDRE <span>Global</span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#como-funciona">Como Funciona</a></li>
+    <li><a href="#categorias">Categorias</a></li>
+    <li><a href="#vantagens">Vantagens</a></li>
+    <li><a href="#planos">Planos</a></li>
+    <li><a href="#depoimentos">Depoimentos</a></li>
+    <li><a href="#contato" class="nav-cta">Comece Agora</a></li>
+  </ul>
+  <div class="hamburger" onclick="toggleMenu()" id="hamburger">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-grid"></div>
+  <div class="hero-line"></div>
+  <div class="hero-content">
+    <div class="hero-badge">Marketplace B2B Premium</div>
+    <h1 class="hero-title">
+      Conectamos<br>
+      Negócios de <em>Luxo</em><br>
+      ao Mundo
+    </h1>
+    <p class="hero-subtitle">
+      A plataforma exclusiva que une compradores e fornecedores premium em moda, joias e imóveis de alto padrão — com segurança, elegância e alcance global.
+    </p>
+    <div class="hero-actions">
+      <a href="#categorias" class="btn-primary"><span>Explorar Produtos</span></a>
+      <a href="#planos" class="btn-outline">Seja Fornecedor</a>
+    </div>
+  </div>
+  <div class="hero-stats">
+    <div class="stat-item">
+      <span class="stat-num">2.500+</span>
+      <span class="stat-label">Fornecedores</span>
+    </div>
+    <div class="stat-item">
+      <span class="stat-num">50+</span>
+      <span class="stat-label">Países</span>
+    </div>
+    <div class="stat-item">
+      <span class="stat-num">R$500M+</span>
+      <span class="stat-label">Em Transações</span>
+    </div>
+  </div>
+  <div class="hero-scroll" onclick="document.getElementById('como-funciona').scrollIntoView({behavior:'smooth'})">
+    <div class="scroll-line"></div>
+    <span>Scroll</span>
+  </div>
+</section>
+
+<!-- MARQUEE -->
+<div class="marquee-section">
+  <div class="marquee-track" id="marqueeTrack">
+    <div class="marquee-item">Moda Premium</div>
+    <div class="marquee-item">Alta Joalheria</div>
+    <div class="marquee-item">Imóveis de Luxo</div>
+    <div class="marquee-item">Serviços Logísticos</div>
+    <div class="marquee-item">Fornecedores Verificados</div>
+    <div class="marquee-item">B2B Internacional</div>
+    <div class="marquee-item">Pagamento Seguro</div>
+    <div class="marquee-item">Suporte Premium</div>
+    <div class="marquee-item">Moda Premium</div>
+    <div class="marquee-item">Alta Joalheria</div>
+    <div class="marquee-item">Imóveis de Luxo</div>
+    <div class="marquee-item">Serviços Logísticos</div>
+    <div class="marquee-item">Fornecedores Verificados</div>
+    <div class="marquee-item">B2B Internacional</div>
+    <div class="marquee-item">Pagamento Seguro</div>
+    <div class="marquee-item">Suporte Premium</div>
+  </div>
+</div>
+
+<!-- TRUST BAR -->
+<div class="trust-bar reveal">
+  <div class="trust-item"><span>🔐</span><span>Pagamento 100% Seguro</span></div>
+  <div class="trust-item"><span>✅</span><span>Fornecedores Verificados</span></div>
+  <div class="trust-item"><span>🌍</span><span>Presença em 50+ Países</span></div>
+  <div class="trust-item"><span>📦</span><span>Logística Integrada</span></div>
+  <div class="trust-item"><span>🛡️</span><span>LGPD Compliant</span></div>
+  <div class="trust-item"><span>⭐</span><span>4.9/5 Avaliação Média</span></div>
+</div>
+
+<!-- COMO FUNCIONA -->
+<section id="como-funciona">
+  <div class="reveal">
+    <div class="section-label">Processo</div>
+    <h2 class="section-title">Como a <em>Alexandre Global</em><br>funciona para você</h2>
+    <p class="section-body">Em apenas 4 passos simples, você conecta seu negócio a uma rede exclusiva de fornecedores e compradores de alto padrão em todo o mundo.</p>
+  </div>
+  <div class="steps-container reveal">
+    <div class="step-card">
+      <span class="step-num">01</span>
+      <span class="step-icon">📋</span>
+      <h3 class="step-title">Cadastre-se Gratuitamente</h3>
+      <p class="step-desc">Crie sua conta em minutos. Compradores e fornecedores têm perfis distintos e personalizados para cada necessidade.</p>
+    </div>
+    <div class="step-card">
+      <span class="step-num">02</span>
+      <span class="step-icon">🔍</span>
+      <h3 class="step-title">Explore ou Publique</h3>
+      <p class="step-desc">Compradores buscam produtos com filtros avançados. Fornecedores publicam catálogos completos com fotos, preços e especificações.</p>
+    </div>
+    <div class="step-card">
+      <span class="step-num">03</span>
+      <span class="step-icon">💬</span>
+      <h3 class="step-title">Negocie com Segurança</h3>
+      <p class="step-desc">Sistema de RFQ integrado, chat privado e propostas formais — tudo dentro da plataforma, com histórico completo.</p>
+    </div>
+    <div class="step-card">
+      <span class="step-num">04</span>
+      <span class="step-icon">🚀</span>
+      <h3 class="step-title">Feche e Receba</h3>
+      <p class="step-desc">Pagamento seguro com escrow, logística integrada e suporte dedicado até a entrega. Seu dinheiro protegido em cada etapa.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CATEGORIAS -->
+<section id="categorias">
+  <div class="reveal">
+    <div class="section-label">Segmentos</div>
+    <h2 class="section-title">Explore as <em>Categorias</em><br>Premium</h2>
+  </div>
+  <div class="categories-grid reveal">
+    <div class="cat-card">
+      <div class="cat-bg cat-bg-1"></div>
+      <div class="cat-pattern"></div>
+      <div class="cat-content">
+        <span class="cat-emoji">👗</span>
+        <h3 class="cat-title">Moda Premium</h3>
+        <span class="cat-count">840+ fornecedores</span>
+      </div>
+      <div class="cat-arrow">→</div>
+    </div>
+    <div class="cat-card">
+      <div class="cat-bg cat-bg-2"></div>
+      <div class="cat-pattern"></div>
+      <div class="cat-content">
+        <span class="cat-emoji">💎</span>
+        <h3 class="cat-title">Alta Joalheria</h3>
+        <span class="cat-count">620+ fornecedores</span>
+      </div>
+      <div class="cat-arrow">→</div>
+    </div>
+    <div class="cat-card">
+      <div class="cat-bg cat-bg-3"></div>
+      <div class="cat-pattern"></div>
+      <div class="cat-content">
+        <span class="cat-emoji">🏛️</span>
+        <h3 class="cat-title">Imóveis de Luxo</h3>
+        <span class="cat-count">380+ imóveis</span>
+      </div>
+      <div class="cat-arrow">→</div>
+    </div>
+    <div class="cat-card">
+      <div class="cat-bg cat-bg-4"></div>
+      <div class="cat-pattern"></div>
+      <div class="cat-content">
+        <span class="cat-emoji">🚢</span>
+        <h3 class="cat-title">Serviços Logísticos</h3>
+        <span class="cat-count">200+ parceiros</span>
+      </div>
+      <div class="cat-arrow">→</div>
+    </div>
+  </div>
+</section>
+
+<!-- VANTAGENS -->
+<section id="vantagens">
+  <div class="reveal">
+    <div class="section-label">Diferenciais</div>
+    <h2 class="section-title">Por que escolher a<br><em>Alexandre Global</em></h2>
+  </div>
+  <div class="features-grid">
+    <div class="feature-list reveal">
+      <div class="feature-item">
+        <div class="feature-icon-box">🔒</div>
+        <div class="feature-text">
+          <h4>Fornecedores 100% Verificados</h4>
+          <p>Todos os fornecedores passam por verificação documental, análise de reputação e auditoria de qualidade antes de ingressar na plataforma.</p>
+        </div>
+      </div>
+      <div class="feature-item">
+        <div class="feature-icon-box">💳</div>
+        <div class="feature-text">
+          <h4>Pagamento com Escrow Seguro</h4>
+          <p>Seu pagamento fica protegido até a confirmação de entrega. Sistema anti-fraude de última geração com cobertura internacional.</p>
+        </div>
+      </div>
+      <div class="feature-item">
+        <div class="feature-icon-box">📊</div>
+        <div class="feature-text">
+          <h4>Dashboard Inteligente</h4>
+          <p>Painel analítico completo com relatórios de vendas, métricas de desempenho, histórico de transações e insights de mercado.</p>
+        </div>
+      </div>
+      <div class="feature-item">
+        <div class="feature-icon-box">🌐</div>
+        <div class="feature-text">
+          <h4>Alcance Global Imediato</h4>
+          <p>Acesse compradores e fornecedores em mais de 50 países. Plataforma multilíngue com suporte em português, inglês e espanhol.</p>
+        </div>
+      </div>
+      <div class="feature-item">
+        <div class="feature-icon-box">🎯</div>
+        <div class="feature-text">
+          <h4>Sistema RFQ Avançado</h4>
+          <p>Envie e receba pedidos de cotação formais. Negocie condições, prazos e preços dentro da plataforma com total rastreabilidade.</p>
+        </div>
+      </div>
+    </div>
+    <div class="features-visual reveal">
+      <div class="visual-card">
+        <div class="visual-badge">
+          <div class="badge-dot"></div>
+          Plataforma ao Vivo
+        </div>
+        <h3 class="visual-title">Números que<br>falam por si</h3>
+        <div class="visual-stats">
+          <div class="vstat">
+            <span class="vstat-n">2.5K+</span>
+            <span class="vstat-l">Fornecedores</span>
+          </div>
+          <div class="vstat">
+            <span class="vstat-n">50+</span>
+            <span class="vstat-l">Países</span>
+          </div>
+          <div class="vstat">
+            <span class="vstat-n">R$500M</span>
+            <span class="vstat-l">Transações</span>
+          </div>
+          <div class="vstat">
+            <span class="vstat-n">4.9★</span>
+            <span class="vstat-l">Avaliação</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- DEPOIMENTOS -->
+<section id="depoimentos">
+  <div class="reveal" style="text-align:center; margin-bottom: 1rem;">
+    <div class="section-label" style="justify-content:center;">Depoimentos</div>
+    <h2 class="section-title">O que nossos <em>clientes</em><br>dizem sobre nós</h2>
+  </div>
+  <div class="gold-divider reveal"><span>Histórias Reais</span></div>
+  <div class="testimonials-grid reveal">
+    <div class="testi-card">
+      <div class="stars">★★★★★</div>
+      <div class="testi-quote">"</div>
+      <p class="testi-text">A Alexandre Global transformou completamente nosso negócio de joalheria. Triplicamos as exportações em 8 meses e hoje atendemos clientes em 12 países.</p>
+      <div class="testi-author">
+        <div class="testi-avatar">R</div>
+        <div>
+          <span class="testi-name">Rafael Monteiro</span>
+          <span class="testi-role">Diretor — Monteiro Joias, SP</span>
+        </div>
+      </div>
+    </div>
+    <div class="testi-card" style="border-top: 2px solid var(--gold);">
+      <div class="stars">★★★★★</div>
+      <div class="testi-quote">"</div>
+      <p class="testi-text">Nunca imaginei que seria tão fácil encontrar fornecedores de moda premium verificados. A plataforma é elegante, segura e o suporte é impecável.</p>
+      <div class="testi-author">
+        <div class="testi-avatar">L</div>
+        <div>
+          <span class="testi-name">Larissa Drummond</span>
+          <span class="testi-role">CEO — Drummond Fashion, RJ</span>
+        </div>
+      </div>
+    </div>
+    <div class="testi-card">
+      <div class="stars">★★★★★</div>
+      <div class="testi-quote">"</div>
+      <p class="testi-text">Fechei um contrato de R$2,4M em imóveis de luxo através da plataforma. O sistema de RFQ e o escrow de pagamento me deram total segurança na negociação.</p>
+      <div class="testi-author">
+        <div class="testi-avatar">C</div>
+        <div>
+          <span class="testi-name">Carlos Viana</span>
+          <span class="testi-role">Corretor Senior — Viana Luxury RE</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PLANOS -->
+<section id="planos">
+  <div class="reveal" style="text-align:center;">
+    <div class="section-label" style="justify-content:center;">Planos</div>
+    <h2 class="section-title">Escolha o plano <em>ideal</em><br>para seu negócio</h2>
+    <p class="section-body" style="margin: 0 auto; text-align:center;">Comece gratuitamente e escale conforme seu negócio cresce. Sem taxas ocultas, sem surpresas.</p>
+  </div>
+  <div class="plans-grid reveal">
+    <!-- STARTER -->
+    <div class="plan-card">
+      <h3 class="plan-name">Starter</h3>
+      <p class="plan-desc">Ideal para quem está começando a explorar o mercado de luxo B2B.</p>
+      <div class="plan-price">
+        <span class="currency">R$</span>
+        <span class="amount">0</span>
+        <span class="period">/mês</span>
+      </div>
+      <ul class="plan-features">
+        <li>Cadastro como Comprador</li>
+        <li>Acesso ao catálogo completo</li>
+        <li>Até 5 RFQs por mês</li>
+        <li>Chat com fornecedores</li>
+        <li class="disabled">Publicar produtos</li>
+        <li class="disabled">Dashboard avançado</li>
+        <li class="disabled">Suporte prioritário</li>
+        <li class="disabled">Relatórios de mercado</li>
+      </ul>
+      <a href="#contato" class="plan-btn plan-btn-outline">Começar Grátis</a>
+    </div>
+    <!-- PRO -->
+    <div class="plan-card featured">
+      <span class="plan-badge">Mais Popular</span>
+      <h3 class="plan-name">Fornecedor Pro</h3>
+      <p class="plan-desc">Para fornecedores que querem crescer com alcance global e ferramentas avançadas.</p>
+      <div class="plan-price">
+        <span class="currency">R$</span>
+        <span class="amount">497</span>
+        <span class="period">/mês</span>
+      </div>
+      <ul class="plan-features">
+        <li>Perfil verificado com selo premium</li>
+        <li>Publicar até 50 produtos</li>
+        <li>RFQs ilimitados</li>
+        <li>Dashboard com analytics</li>
+        <li>Destaque nas buscas</li>
+        <li>Suporte prioritário 24h</li>
+        <li>Relatórios mensais</li>
+        <li class="disabled">White-label & API</li>
+      </ul>
+      <a href="#contato" class="plan-btn plan-btn-gold">Assinar Agora</a>
+    </div>
+    <!-- ENTERPRISE -->
+    <div class="plan-card">
+      <h3 class="plan-name">Enterprise</h3>
+      <p class="plan-desc">Solução completa para grandes operações com necessidades personalizadas.</p>
+      <div class="plan-price">
+        <span class="currency">R$</span>
+        <span class="amount">1.997</span>
+        <span class="period">/mês</span>
+      </div>
+      <ul class="plan-features">
+        <li>Tudo do plano Pro</li>
+        <li>Produtos ilimitados</li>
+        <li>Gerente de conta dedicado</li>
+        <li>White-label disponível</li>
+        <li>Integração via API</li>
+        <li>Relatórios personalizados</li>
+        <li>SLA garantido 99.9%</li>
+        <li>Onboarding personalizado</li>
+      </ul>
+      <a href="#contato" class="plan-btn plan-btn-outline">Falar com Consultor</a>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section id="faq">
+  <div class="reveal" style="text-align:center;">
+    <div class="section-label" style="justify-content:center;">FAQ</div>
+    <h2 class="section-title">Perguntas <em>Frequentes</em></h2>
+  </div>
+  <div class="faq-container reveal">
+    <div class="faq-item open">
+      <div class="faq-question" onclick="toggleFaq(this)">
+        <h4>Como os fornecedores são verificados na plataforma?</h4>
+        <div class="faq-icon">+</div>
+      </div>
+      <div class="faq-answer">
+        <p>Todo fornecedor passa por um processo rigoroso de verificação: análise de documentos empresariais (CNPJ, contrato social), verificação de histórico comercial, referências de parceiros e auditoria de qualidade dos produtos. O processo leva até 5 dias úteis e somente fornecedores aprovados recebem o Selo Alexandre Verificado.</p>
+      </div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-question" onclick="toggleFaq(this)">
+        <h4>Como funciona o sistema de pagamento e o escrow?</h4>
+        <div class="faq-icon">+</div>
+      </div>
+      <div class="faq-answer">
+        <p>Ao fechar um negócio, o pagamento do comprador fica retido em uma conta escrow segura. O valor só é liberado ao fornecedor após confirmação de entrega e aprovação do comprador. Em caso de disputa, nossa equipe de mediação atua em até 48h para resolução.</p>
+      </div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-question" onclick="toggleFaq(this)">
+        <h4>Posso cancelar meu plano a qualquer momento?</h4>
+        <div class="faq-icon">+</div>
+      </div>
+      <div class="faq-answer">
+        <p>Sim. Não há fidelidade mínima. Você pode cancelar a assinatura a qualquer momento diretamente pelo painel. O acesso permanece ativo até o final do período já pago, sem cobranças adicionais.</p>
+      </div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-question" onclick="toggleFaq(this)">
+        <h4>A plataforma atende apenas empresas brasileiras?</h4>
+        <div class="faq-icon">+</div>
+      </div>
+      <div class="faq-answer">
+        <p>Não. A Alexandre Global é uma plataforma global com presença ativa em mais de 50 países. Compradores e fornecedores de qualquer país podem se cadastrar. A plataforma suporta múltiplas moedas e idiomas (português, inglês e espanhol).</p>
+      </div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-question" onclick="toggleFaq(this)">
+        <h4>Há comissão sobre as transações realizadas?</h4>
+        <div class="faq-icon">+</div>
+      </div>
+      <div class="faq-answer">
+        <p>Planos pagos incluem 0% de comissão sobre transações — você paga apenas a assinatura mensal. Para o plano Starter (gratuito), aplicamos uma comissão de 3,5% sobre transações fechadas dentro da plataforma para manutenção dos serviços.</p>
+      </div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-question" onclick="toggleFaq(this)">
+        <h4>Como funciona o RFQ (Request for Quotation)?</h4>
+        <div class="faq-icon">+</div>
+      </div>
+      <div class="faq-answer">
+        <p>O sistema RFQ permite que compradores enviem pedidos formais de cotação para um ou múltiplos fornecedores simultaneamente. Fornecedores respondem com propostas detalhadas (preço, prazo, condições). O comprador compara as propostas e negocia diretamente. Todo o processo é rastreável e documentado.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA BANNER -->
+<section id="cta-banner">
+  <div class="cta-content">
+    <div class="section-label" style="justify-content:center; margin-bottom: 1.5rem;">Comece Hoje</div>
+    <h2 class="cta-title">Pronto para elevar seu<br>negócio ao <em>próximo nível?</em></h2>
+    <p class="cta-sub">Junte-se a mais de 2.500 fornecedores e compradores que já fazem negócios de luxo com segurança e elegância.</p>
+    <div class="cta-actions">
+      <a href="#contato" class="btn-primary"><span>Criar Conta Gratuita</span></a>
+      <a href="#planos" class="btn-outline">Ver Planos</a>
+    </div>
+  </div>
+</section>
+
+<!-- CONTATO -->
+<section id="contato">
+  <div class="reveal">
+    <div class="section-label">Contato</div>
+    <h2 class="section-title">Fale com nossa<br><em>equipe premium</em></h2>
+    <p class="section-body">Tem dúvidas ou precisa de uma solução personalizada? Nossa equipe está disponível para atender você.</p>
+  </div>
+  <div class="contact-grid reveal">
+    <div class="contact-info">
+      <div class="contact-item">
+        <div class="contact-icon">📧</div>
+        <div>
+          <span class="contact-label">E-mail</span>
+          <span class="contact-value">contato@alexandreglobal.com</span>
+        </div>
+      </div>
+      <div class="contact-item">
+        <div class="contact-icon">📱</div>
+        <div>
+          <span class="contact-label">WhatsApp</span>
+          <span class="contact-value">+55 (11) 99999-9999</span>
+        </div>
+      </div>
+      <div class="contact-item">
+        <div class="contact-icon">📍</div>
+        <div>
+          <span class="contact-label">Sede</span>
+          <span class="contact-value">São Paulo, Brasil — com operações globais</span>
+        </div>
+      </div>
+      <div class="contact-item">
+        <div class="contact-icon">⏰</div>
+        <div>
+          <span class="contact-label">Atendimento</span>
+          <span class="contact-value">Segunda a Sexta, 9h–18h (BRT)</span>
+        </div>
+      </div>
+    </div>
+    <div class="contact-form">
+      <div class="form-row">
+        <div class="form-group">
+          <label>Nome Completo</label>
+          <input type="text" placeholder="Seu nome">
+        </div>
+        <div class="form-group">
+          <label>E-mail Corporativo</label>
+          <input type="email" placeholder="email@empresa.com">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>WhatsApp</label>
+          <input type="tel" placeholder="+55 (11) 99999-9999">
+        </div>
+        <div class="form-group">
+          <label>Tipo de Interesse</label>
+          <select>
+            <option value="">Selecione...</option>
+            <option>Sou Comprador</option>
+            <option>Quero ser Fornecedor</option>
+            <option>Plano Enterprise</option>
+            <option>Parceria / Integração</option>
+            <option>Outro</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Empresa & Segmento</label>
+        <input type="text" placeholder="Nome da empresa e ramo de atuação">
+      </div>
+      <div class="form-group">
+        <label>Mensagem</label>
+        <textarea rows="5" placeholder="Conte-nos sobre seu negócio e como podemos ajudar..."></textarea>
+      </div>
+      <button class="btn-primary" onclick="handleSubmit(event)" style="width:100%; padding:16px; font-size:0.72rem; letter-spacing:0.22em;"><span>Enviar Mensagem →</span></button>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <div class="footer-logo">ALEXANDRE <span>Global</span></div>
+      <p class="footer-tagline">A plataforma B2B premium que conecta os melhores negócios de luxo do mundo — moda, joias e imóveis de alto padrão.</p>
+      <div class="footer-social">
+        <a href="#" class="social-btn" title="Instagram">📷</a>
+        <a href="#" class="social-btn" title="LinkedIn">in</a>
+        <a href="#" class="social-btn" title="WhatsApp">💬</a>
+        <a href="#" class="social-btn" title="YouTube">▶</a>
+      </div>
+    </div>
+    <div class="footer-col">
+      <h5>Plataforma</h5>
+      <ul class="footer-links">
+        <li><a href="#como-funciona">Como Funciona</a></li>
+        <li><a href="#categorias">Categorias</a></li>
+        <li><a href="#planos">Planos & Preços</a></li>
+        <li><a href="#">App Mobile</a></li>
+        <li><a href="#">API para Parceiros</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h5>Empresa</h5>
+      <ul class="footer-links">
+        <li><a href="#">Sobre Nós</a></li>
+        <li><a href="#">Blog</a></li>
+        <li><a href="#">Casos de Sucesso</a></li>
+        <li><a href="#">Imprensa</a></li>
+        <li><a href="#contato">Contato</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h5>Legal</h5>
+      <ul class="footer-links">
+        <li><a href="#">Termos de Uso</a></li>
+        <li><a href="#">Política de Privacidade</a></li>
+        <li><a href="#">LGPD</a></li>
+        <li><a href="#">Política de Cookies</a></li>
+        <li><a href="#">Central de Ajuda</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span class="footer-copy">© 2025 Alexandre Global. Todos os direitos reservados.</span>
+    <div class="footer-legal">
+      <a href="#">Termos</a>
+      <a href="#">Privacidade</a>
+      <a href="#">LGPD</a>
+    </div>
+  </div>
+</footer>
+
+<!-- WHATSAPP -->
+<div class="whatsapp-float">
+  <span class="whatsapp-label">Fale conosco agora</span>
+  <a href="https://wa.me/5511999999999" class="whatsapp-bubble" target="_blank" rel="noopener">💬</a>
+</div>
+
+<!-- SCRIPTS -->
+<script>
+  // Navbar scroll
+  const navbar = document.getElementById('navbar');
+  window.addEventListener('scroll', () => {
+    navbar.classList.toggle('scrolled', window.scrollY > 50);
+  });
+
+  // Mobile menu
+  function toggleMenu() {
+    const menu = document.getElementById('mobileMenu');
+    const burger = document.getElementById('hamburger');
+    menu.classList.toggle('open');
+    burger.classList.toggle('active');
+  }
+
+  // Reveal on scroll
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => entry.target.classList.add('visible'), i * 80);
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.1 });
+  reveals.forEach(el => observer.observe(el));
+
+  // FAQ toggle
+  function toggleFaq(el) {
+    const item = el.parentElement;
+    const isOpen = item.classList.contains('open');
+    document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+    if (!isOpen) item.classList.add('open');
+  }
+
+  // Form submit
+  function handleSubmit(e) {
+    e.preventDefault();
+    const btn = e.currentTarget;
+    const original = btn.innerHTML;
+    btn.innerHTML = '<span>Mensagem Enviada ✓</span>';
+    btn.style.background = '#2a8a4a';
+    setTimeout(() => {
+      btn.innerHTML = original;
+      btn.style.background = '';
+    }, 3000);
+  }
+
+  // Smooth number counter animation
+  function animateCounter(el, target, suffix = '') {
+    let current = 0;
+    const increment = target / 60;
+    const timer = setInterval(() => {
+      current += increment;
+      if (current >= target) {
+        current = target;
+        clearInterval(timer);
+      }
+      el.textContent = Math.floor(current).toLocaleString('pt-BR') + suffix;
+    }, 25);
+  }
+
+  // Trigger counters when hero stats visible
+  const statNums = document.querySelectorAll('.stat-num');
+  const statData = [2500, 50, 500];
+  const statSuffix = ['+', '+', 'M+'];
+  const statPrefix = ['', '', 'R$'];
+  let countersStarted = false;
+  window.addEventListener('scroll', () => {
+    if (!countersStarted && window.scrollY < 200) return;
+  });
+  setTimeout(() => {
+    statNums.forEach((el, i) => {
+      el.style.transition = 'color 0.3s';
+    });
+  }, 1200);
+</script>
 </body>
 </html>
