@@ -1,0 +1,216 @@
+‎  
+‎<!DOCTYPE html>
+‎<html lang="pt-BR">
+‎<head>
+‎<meta charset="UTF-8">
+‎<meta name="viewport" content="width=device-width, initial-scale=1.0">
+‎<meta name="description" content="Alexandre Global — Marketplace B2B Premium para Moda, Joias e Imóveis de Alto Padrão. Conectamos negócios de luxo ao mundo.">
+‎<meta property="og:title" content="Alexandre Global | Conectamos Negócios de Luxo ao Mundo">
+‎<meta property="og:description" content="Marketplace B2B premium para moda, joias e imóveis de alto padrão. 2.500+ fornecedores verificados.">
+‎<title>Alexandre Global | Conectamos Negócios de Luxo ao Mundo</title>
+‎<link rel="preconnect" href="https://fonts.googleapis.com">
+‎<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+‎<style>
+‎  :root {
+‎    --gold: #C9A84C;
+‎    --gold-light: #E8C97A;
+‎    --gold-pale: #F5E9C8;
+‎    --black: #0A0A0A;
+‎    --dark: #111111;
+‎    --dark2: #1A1A1A;
+‎    --dark3: #222222;
+‎    --gray: #888888;
+‎    --gray-light: #CCCCCC;
+‎    --white: #FAFAF8;
+‎    --champagne: #F7EDD8;
+‎    --font-serif: 'Cormorant Garamond', Georgia, serif;
+‎    --font-sans: 'Montserrat', sans-serif;
+‎  }
+‎
+‎  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+‎
+‎  html { scroll-behavior: smooth; }
+‎
+‎  body {
+‎    background: var(--black);
+‎    color: var(--white);
+‎    font-family: var(--font-sans);
+‎    font-weight: 300;
+‎    overflow-x: hidden;
+‎    cursor: default;
+‎  }
+‎
+‎  /* ─── SCROLLBAR ─── */
+‎  ::-webkit-scrollbar { width: 4px; }
+‎  ::-webkit-scrollbar-track { background: var(--dark); }
+‎  ::-webkit-scrollbar-thumb { background: var(--gold); border-radius: 2px; }
+‎
+‎  /* ─── NOISE OVERLAY ─── */
+‎  body::before {
+‎    content: '';
+‎    position: fixed; inset: 0;
+‎    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+‎    pointer-events: none; z-index: 9999; opacity: 0.4;
+‎  }
+‎
+‎  /* ─── NAVBAR ─── */
+‎  nav {
+‎    position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+‎    display: flex; align-items: center; justify-content: space-between;
+‎    padding: 0 5%;
+‎    height: 72px;
+‎    background: rgba(10,10,10,0.92);
+‎    backdrop-filter: blur(20px);
+‎    border-bottom: 1px solid rgba(201,168,76,0.15);
+‎    transition: all 0.3s ease;
+‎  }
+‎
+‎  nav.scrolled {
+‎    height: 60px;
+‎    background: rgba(10,10,10,0.98);
+‎    border-bottom-color: rgba(201,168,76,0.3);
+‎  }
+‎
+‎  .nav-logo {
+‎    font-family: var(--font-serif);
+‎    font-size: 1.4rem;
+‎    font-weight: 500;
+‎    letter-spacing: 0.12em;
+‎    color: var(--white);
+‎    text-decoration: none;
+‎    display: flex; align-items: center; gap: 10px;
+‎  }
+‎
+‎  .nav-logo span {
+‎    color: var(--gold);
+‎    font-weight: 300;
+‎    font-style: italic;
+‎  }
+‎
+‎  .logo-diamond {
+‎    width: 8px; height: 8px;
+‎    background: var(--gold);
+‎    transform: rotate(45deg);
+‎    flex-shrink: 0;
+‎  }
+‎
+‎  .nav-links {
+‎    display: flex; align-items: center; gap: 2.5rem;
+‎    list-style: none;
+‎  }
+‎
+‎  .nav-links a {
+‎    font-size: 0.7rem;
+‎    font-weight: 500;
+‎    letter-spacing: 0.18em;
+‎    text-transform: uppercase;
+‎    color: var(--gray-light);
+‎    text-decoration: none;
+‎    transition: color 0.3s;
+‎    position: relative;
+‎  }
+‎
+‎  .nav-links a::after {
+‎    content: '';
+‎    position: absolute; bottom: -4px; left: 0; right: 0;
+‎    height: 1px; background: var(--gold);
+‎    transform: scaleX(0); transform-origin: left;
+‎    transition: transform 0.3s ease;
+‎  }
+‎
+‎  .nav-links a:hover { color: var(--gold); }
+‎  .nav-links a:hover::after { transform: scaleX(1); }
+‎
+‎  .nav-cta {
+‎    background: transparent;
+‎    border: 1px solid var(--gold);
+‎    color: var(--gold) !important;
+‎    padding: 8px 20px;
+‎    font-size: 0.65rem !important;
+‎    letter-spacing: 0.2em !important;
+‎    text-transform: uppercase;
+‎    cursor: pointer;
+‎    transition: all 0.3s !important;
+‎  }
+‎
+‎  .nav-cta:hover {
+‎    background: var(--gold) !important;
+‎    color: var(--black) !important;
+‎  }
+‎
+‎  .nav-cta::after { display: none !important; }
+‎
+‎  .hamburger {
+‎    display: none;
+‎    flex-direction: column; gap: 5px;
+‎    cursor: pointer; padding: 5px;
+‎  }
+‎
+‎  .hamburger span {
+‎    display: block; width: 24px; height: 1px;
+‎    background: var(--gold); transition: all 0.3s;
+‎  }
+‎
+‎  /* ─── HERO ─── */
+‎  #hero {
+‎    min-height: 100vh;
+‎    display: flex; flex-direction: column;
+‎    justify-content: center; align-items: flex-start;
+‎    padding: 0 5% 0 8%;
+‎    position: relative;
+‎    overflow: hidden;
+‎  }
+‎
+‎  .hero-bg {
+‎    position: absolute; inset: 0;
+‎    background:
+‎      radial-gradient(ellipse 80% 60% at <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "Alexandre Global",
+  "url": "https://www.alexandreglobal.com/",
+  "logo": "https://www.alexandreglobal.com/logo.png", // Adicionar um link para o logo
+  "contactPoint": {
+    "@type": "ContactPoint",
+    "telephone": "+55 (11) 99999-9999",
+    "contactType": "Customer service",
+    "areaServed": "BR",
+    "availableLanguage": "pt-BR"
+  },
+  "sameAs": [
+    "https://www.instagram.com/alexandreglobal/", // Se tiver links
+    "https://www.linkedin.com/company/alexandreglobal/"
+  ]
+}
+</script>// No final do script, descomente e adapte a parte do contador
+// ...
+const statNums = document.querySelectorAll('.stat-num');
+const statData = [2500, 50, 500]; // Ajuste os valores se necessário
+const statSuffix = ['+', '+', 'M+'];
+const statPrefix = ['', '', 'R$'];
+let countersStarted = false;
+
+// Função para iniciar os contadores
+function startCounters() {
+    if (!countersStarted) {
+        statNums.forEach((el, i) => {
+            animateCounter(el, statData[i], statSuffix[i], statPrefix[i]);
+        });
+        countersStarted = true;
+    }
+}
+
+// Use um IntersectionObserver para disparar os contadores quando a seção hero for visível
+const heroSection = document.getElementById('hero');
+const heroObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            startCounters();
+            heroObserver.unobserve(entry.target); // Desativa após iniciar
+        }
+    });
+}, { threshold: 0.5 }); // Ajuste o threshold conforme necessário
+
+if (heroSection
+
