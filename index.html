@@ -850,7 +850,28 @@ DOCTYPE html>
   bottom: 20px;
   right: 20px;
   z-index: 1000;
-}
+}<!-- Seção de Pagamentos Globais -->
+<section class="global-payment-section" style="padding: 40px; text-align: center;">
+    <h2>Pagamentos Seguros em Escala Global</h2>
+    <p>Aceitamos as principais formas de pagamento internacionais.</p>
+    
+    <div class="currency-selector">
+        <label for="currency">Escolha sua moeda:</label>
+        <select id="currency" name="currency">
+            <option value="AOA">Kwanza (AOA)</option>
+            <option value="USD">Dólar Americano (USD)</option>
+            <option value="EUR">Euro (EUR)</option>
+        </select>
+    </div>
+
+    <!-- Botão de Checkout que será ligado ao seu processador global -->
+    <div style="margin-top: 20px;">
+        <button class="btn-primary" onclick="alert('Redirecionando para Checkout Seguro...')">
+            Pagar com Cartão Internacional
+        </button>
+    </div>
+</section>
+
                             
                             
     
