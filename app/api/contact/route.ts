@@ -1,32 +1,29 @@
 import { NextResponse } from 'next/server';
+import { createClient } from '@supabase/supabase-js';
+
+// Inicializa o cliente com as variáveis que você configurou
+const supabase = createClient(
+  process.env.NEXT_PUBLIC_SUPABASE_URL!,
+  process.env.SUPABASE_SERVICE_ROLE_KEY! // Use a 'Secret key' aqui
+);
 
 export async function POST(req: Request) {
   try {
     const data = await req.json();
-    
-    // Aqui você captura os dados que vêm do formulário
     const { nome, email, telefone, mensagem } = data;
 
-    // Por agora, vamos registar no log do servidor.
-    // Assim que conectar ao seu banco de dados (Supabase/Firebase), 
-    // será aqui que o código de inserção entrará.
-    console.log("Novo Lead Recebido:", {
-      nome,
-      email,
-      telefone,
-      mensagem,
-      data: new Date().toISOString()
-    });
+    // Tenta inserir os dados na tabela 'leads'
+    const { error } = await supabase
+      .from('leads')
+      .insert([{ nome, email, telefone, mensagem }]);
 
-    // Retorna uma resposta de sucesso para o frontend
-    return NextResponse.json(
-      { message: "Solicitação VIP enviada com sucesso!" }, 
-      { status: 200 }
-    );
+    if (error) {
+      console.error("Erro ao inserir no Supabase:", error);
+      throw error;
+    }
+
+    return NextResponse.json({ message: "Solicitação VIP enviada com sucesso!" }, { status: 200 });
   } catch (error) {
-    return NextResponse.json(
-      { error: "Erro ao processar a solicitação." }, 
-      { status: 500 }
-    );
+    return NextResponse.json({ error: "Erro ao processar a solicitação." }, { status: 500 });
   }
 }
