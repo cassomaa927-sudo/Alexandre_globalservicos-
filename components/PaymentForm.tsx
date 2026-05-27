@@ -47,23 +47,28 @@ const PaymentForm = () => {
             required
           />
         </div>
-
-        <motion.button
-          whileHover={{ scale: !loading ? 1.02 : 1 }}
-          whileTap={{ scale: !loading ? 0.98 : 1 }}
-          disabled={loading}
-          className={`w-full mt-4 py-3 rounded-lg font-bold text-white shadow-lg transition-all ${
-            loading 
-              ? "bg-gray-600 cursor-not-allowed" 
-              : "bg-gradient-to-r from-yellow-500 to-yellow-700 hover:from-yellow-400 hover:to-yellow-600 shadow-yellow-500/20"
-          }`}
-        >
-          {loading ? "Processando..." : "Confirmar Pagamento"}
-        </motion.button>
+</motion.button>
+  whileHover={{ scale: !loading ? 1.02 : 1 }}
+  whileTap={{ scale: !loading ? 0.98 : 1 }}
+  disabled={loading}
+  className={`w-full mt-4 py-3 rounded-lg font-bold text-white shadow-lg transition-all flex items-center justify-center ${
+    loading 
+      ? "bg-gray-600 cursor-not-allowed" 
+      : "bg-gradient-to-r from-yellow-500 to-yellow-700 hover:from-yellow-400 hover:to-yellow-600 shadow-yellow-500/20"
+  }`}
+>
+  {loading ? (
+    <>
+      <FiLoader className="animate-spin mr-2 text-xl" />
+      Processando...
+    </>
+  ) : (
+    "Confirmar Pagamento"
+  )}
+</motion.button>   
       </form>
     </motion.div>
   );
 };
-
 export default PaymentForm;
 
