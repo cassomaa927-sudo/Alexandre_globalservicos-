@@ -1,20 +1,21 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
+import { FiLoader } from 'react-icons/fi';
 
 const PaymentForm = () => {
   const [loading, setLoading] = useState(false);
+  const [valor, setValor] = useState('');
+  const [telefone, setTelefone] = useState('');
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
-    
-    // Aqui entra a lógica da sua API do Gpayangola futuramente
-    console.log("Processando pagamento...");
-    
-    // Simulação de espera da API
+
+    console.log("Processando:", { valor, telefone });
     await new Promise((resolve) => setTimeout(resolve, 2000));
     
     setLoading(false);
+    alert("Pagamento processado com sucesso!");
   };
 
   return (
@@ -32,6 +33,8 @@ const PaymentForm = () => {
           <label className="block text-sm text-gray-300 mb-1">Valor (AOA)</label>
           <input 
             type="number" 
+            value={valor}
+            onChange={(e) => setValor(e.target.value)}
             className="w-full bg-white/5 border border-white/10 rounded-lg p-3 text-white focus:border-yellow-500/50 outline-none transition"
             placeholder="0.00"
             required
@@ -42,33 +45,37 @@ const PaymentForm = () => {
           <label className="block text-sm text-gray-300 mb-1">Número de Telefone</label>
           <input 
             type="text" 
+            value={telefone}
+            onChange={(e) => setTelefone(e.target.value)}
             className="w-full bg-white/5 border border-white/10 rounded-lg p-3 text-white focus:border-yellow-500/50 outline-none transition"
             placeholder="9XX XXX XXX"
             required
           />
         </div>
-</motion.button>
-  whileHover={{ scale: !loading ? 1.02 : 1 }}
-  whileTap={{ scale: !loading ? 0.98 : 1 }}
-  disabled={loading}
-  className={`w-full mt-4 py-3 rounded-lg font-bold text-white shadow-lg transition-all flex items-center justify-center ${
-    loading 
-      ? "bg-gray-600 cursor-not-allowed" 
-      : "bg-gradient-to-r from-yellow-500 to-yellow-700 hover:from-yellow-400 hover:to-yellow-600 shadow-yellow-500/20"
-  }`}
->
-  {loading ? (
-    <>
-      <FiLoader className="animate-spin mr-2 text-xl" />
-      Processando...
-    </>
-  ) : (
-    "Confirmar Pagamento"
-  )}
-</motion.button>   
+
+        <motion.button
+          whileHover={{ scale: !loading ? 1.02 : 1 }}
+          whileTap={{ scale: !loading ? 0.98 : 1 }}
+          disabled={loading}
+          className={`w-full mt-4 py-3 rounded-lg font-bold text-white shadow-lg transition-all flex items-center justify-center ${
+            loading 
+              ? "bg-gray-600 cursor-not-allowed" 
+              : "bg-gradient-to-r from-yellow-500 to-yellow-700 hover:from-yellow-400 hover:to-yellow-600 shadow-yellow-500/20"
+          }`}
+        >
+          {loading ? (
+            <>
+              <FiLoader className="animate-spin mr-2 text-xl" />
+              Processando...
+            </>
+          ) : (
+            "Confirmar Pagamento"
+          )}
+        </motion.button>
       </form>
     </motion.div>
   );
 };
-export default PaymentForm;
 
+export default PaymentForm;
+            
