@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ServiTech Angola — Dashboard</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: #0A0E1A; color: #F1F5F9; font-family: 'Segoe UI', sans-serif; min-height: 100vh; }
+
+  .sidebar {
+    position: fixed; left: 0; top: 0; bottom: 0; width: 220px;
+    background: #111827; border-right: 1px solid #1E2A3D;
+    display: flex; flex-direction: column; z-index: 100;
+  }
+  .logo { padding: 20px 18px; border-bottom: 1px solid #1E2A3D; display: flex; align-items: center; gap: 10px; }
+  .logo-icon { width: 36px; height: 36px; border-radius: 10px; background: linear-gradient(135deg, #F59E0B, #EF4444); display: flex; align-items: center; justify-content: center; font-size: 18px; }
+  .logo-name { font-weight: 900; font-size: 16px; }
+  .logo-sub { font-size: 9px; color: #F59E0B; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; }
+  nav { padding: 12px 10px; flex: 1; }
+  .nav-item { display: flex; align-items: center; gap: 10px; padding: 10px 12px; border-radius: 10px; cursor: pointer; font-size: 13px; color: #64748B; margin-bottom: 2px; transition: all 0.15s; text-decoration: none; }
+  .nav-item:hover { background: #1E2A3D; color: #F1F5F9; }
+  .nav-item.active { background: rgba(245,158,11,0.15); color: #F59E0B; font-weight: 700; }
+  .nav-icon { font-size: 16px; }
+
+  .main { margin-left: 220px; padding: 24px; }
+  .topbar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; }
+  .page-title { font-size: 22px; font-weight: 900; letter-spacing: -0.03em; }
+  .page-sub { font-size: 12px; color: #64748B; margin-top: 2px; }
+  .btn-primary { background: linear-gradient(135deg, #F59E0B, #EF4444); border: none; border-radius: 10px; padding: 9px 18px; color: #000; font-weight: 700; font-size: 13px; cursor: pointer; display: flex; align-items: center; gap: 6px; }
+
+  .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-bottom: 22px; }
+  .stat-card { background: #161D2E; border: 1px solid #1E2A3D; border-radius: 14px; padding: 20px 22px; position: relative; overflow: hidden; transition: transform 0.2s; }
+  .stat-card:hover { transform: translateY(-2px); }
+  .stat-icon { width: 36px; height: 36px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 17px; margin-bottom: 10px; }
+  .stat-val { font-size: 22px; font-weight: 800; font-family: monospace; }
+  .stat-label { font-size: 12px; color: #64748B; margin-top: 2px; }
+  .stat-sub { font-size: 11px; font-weight: 600; margin-top: 6px; }
+
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 22px; }
+  .card { background: #161D2E; border: 1px solid #1E2A3D; border-radius: 14px; overflow: hidden; }
+  .card-header { padding: 16px 20px; border-bottom: 1px solid #1E2A3D; display: flex; justify-content: space-between; align-items: center; }
+  .card-title { font-size: 14px; font-weight: 700; }
+  .card-body { padding: 16px 20px; }
+
+  .badge { display: inline-flex; align-items: center; gap: 5px; padding: 3px 10px; border-radius: 20px; font-size: 10px; font-weight: 700; text-transform: uppercase; }
+  .badge-dot { width: 6px; height: 6px; border-radius: 50%; }
+
+  .os-table { width: 100%; }
+  .os-row { display: grid; grid-template-columns: 90px 1fr 140px 100px 110px; gap: 10px; padding: 12px 20px; border-bottom: 1px solid #1E2A3D; align-items: center; transition: background 0.15s; cursor: pointer; }
+  .os-row:hover { background: #111827; }
+  .os-header { font-size: 10px; color: #64748B; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; background: #111827; }
+  .os-num { font-family: monospace; font-weight: 700; color: #F59E0B; font-size: 12px; }
+  .os-title { font-size: 13px; font-weight: 600; }
+  .os-sub { font-size: 11px; color: #64748B; margin-top: 2px; }
+
+  .tech-item { display: flex; align-items: center; gap: 10px; padding: 10px 0; border-bottom: 1px solid #1E2A3D; }
+  .tech-avatar { width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: 800; flex-shrink: 0; }
+  .tech-name { font-size: 13px; font-weight: 600; }
+  .tech-sub { font-size: 11px; color: #64748B; }
+  .progress-bar { width: 60px; height: 5px; background: #1E2A3D; border-radius: 5px; overflow: hidden; margin-left: auto; }
+  .progress-fill { height: 100%; border-radius: 5px; }
+
+  .bar-chart { display: flex; align-items: flex-end; gap: 8px; height: 80px; margin-top: 8px; }
+  .bar { flex: 1; border-radius: 4px 4px 0 0; transition: height 0.6s; }
+  .bar-label { font-size: 9px; color: #64748B; text-align: center; margin-top: 4px; }
+
+  @media (max-width: 900px) {
+    .sidebar { width: 60px; }
+    .logo-name, .logo-sub, .nav-item span { display: none; }
+    .main { margin-left: 60px; }
+    .stats-grid { grid-template-columns: repeat(2, 1fr); }
+    .grid-2 { grid-template-columns: 1fr; }
+    .os-row { grid-template-columns: 80px 1fr 100px; }
+    .os-row > *:nth-child(4), .os-row > *:nth-child(5) { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Sidebar -->
+<aside class="sidebar">
+  <div class="logo">
+    <div class="logo-icon">🔧</div>
+    <div>
+      <div class="logo-name">ServiTech</div>
+      <div class="logo-sub">Angola · SaaS</div>
+    </div>
+  </div>
+  <nav>
+    <a class="nav-item active"><span class="nav-icon">⊞</span><span>Dashboard</span></a>
+    <a class="nav-item"><span class="nav-icon">📋</span><span>Ordens de Serviço</span></a>
+    <a class="nav-item"><span class="nav-icon">👷</span><span>Técnicos</span></a>
+    <a class="nav-item"><span class="nav-icon">🗺️</span><span>Mapa ao Vivo</span></a>
+    <a class="nav-item"><span class="nav-icon">📊</span><span>Relatórios</span></a>
+    <a class="nav-item"><span class="nav-icon">💬</span><span>WhatsApp Bot</span></a>
+    <a class="nav-item"><span class="nav-icon">⚙️</span><span>Configurações</span></a>
+  </nav>
+  <div style="padding: 12px 14px 20px;">
+    <div style="background: rgba(245,158,11,0.1); border: 1px solid rgba(245,158,11,0.3); border-radius: 10px; padding: 10px 12px;">
+      <div style="font-size: 11px; color: #F59E0B; font-weight: 700;">Plano Pro</div>
+      <div style="font-size: 10px; color: #64748B; margin-top: 2px;">6 técnicos · 120.000 Kz/mês</div>
+    </div>
+  </div>
+</aside>
+
+<!-- Main -->
+<main class="main">
+  <!-- Topbar -->
+  <div class="topbar">
+    <div>
+      <div class="page-title">Dashboard</div>
+      <div class="page-sub">Hoje · Luanda, Angola</div>
+    </div>
+    <button class="btn-primary">➕ Nova Ordem</button>
+  </div>
+
+  <!-- Stats -->
+  <div class="stats-grid">
+    <div class="stat-card">
+      <div class="stat-icon" style="background: rgba(59,130,246,0.15);">📋</div>
+      <div class="stat-val" style="color: #F1F5F9;">24</div>
+      <div class="stat-label">Total Hoje</div>
+      <div class="stat-sub" style="color: #10B981;">↑ 12% vs ontem</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-icon" style="background: rgba(245,158,11,0.15);">⏳</div>
+      <div class="stat-val" style="color: #F59E0B;">8</div>
+      <div class="stat-label">Pendentes</div>
+      <div class="stat-sub" style="color: #F59E0B;">2 urgentes</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-icon" style="background: rgba(139,92,246,0.15);">⚡</div>
+      <div class="stat-val" style="color: #8B5CF6;">10</div>
+      <div class="stat-label">Em Curso</div>
+      <div class="stat-sub" style="color: #8B5CF6;">6 técnicos activos</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-icon" style="background: rgba(16,185,129,0.15);">✅</div>
+      <div class="stat-val" style="color: #10B981;">6</div>
+      <div class="stat-label">Concluídas</div>
+      <div class="stat-sub" style="color: #10B981;">Taxa: 25%</div>
+    </div>
+  </div>
+
+  <!-- Middle -->
+  <div class="grid-2">
+    <!-- Chart -->
+    <div class="card">
+      <div class="card-header">
+        <div class="card-title">Receita Mensal</div>
+        <div style="background: rgba(245,158,11,0.15); border: 1px solid rgba(245,158,11,0.3); border-radius: 8px; padding: 4px 10px; font-size: 12px; color: #F59E0B; font-weight: 700;">7.8M Kz</div>
+      </div>
+      <div class="card-body">
+        <div class="bar-chart" id="barChart"></div>
+        <div style="display: flex; margin-top: 4px;" id="barLabels"></div>
+      </div>
+    </div>
+
+    <!-- Technicians -->
+    <div class="card">
+      <div class="card-header">
+        <div class="card-title">Técnicos — Hoje</div>
+        <span style="font-size: 11px; color: #64748B;">6 activos</span>
+      </div>
+      <div class="card-body" id="techList"></div>
+    </div>
+  </div>
+
+  <!-- Orders table -->
+  <div class="card">
+    <div class="card-header">
+      <div class="card-title">Ordens Recentes</div>
+      <a style="background: rgba(59,130,246,0.12); border: 1px solid rgba(59,130,246,0.3); border-radius: 8px; padding: 4px 12px; font-size: 11px; color: #3B82F6; cursor: pointer; font-weight: 600; text-decoration: none;">Ver Todas</a>
+    </div>
+    <div class="os-row os-header">
+      <span>OS</span><span>Cliente / Serviço</span><span>Técnico</span><span>Prioridade</span><span>Status</span>
+    </div>
+    <div id="osList"></div>
+  </div>
+</main>
+
+<script>
+const MONTHS = ['Jan','Fev','Mar','Abr','Mai','Jun'];
+const VALUES = [4.2, 5.1, 4.7, 6.3, 7.1, 7.8];
+const MAX = Math.max(...VALUES);
+
+const barChart = document.getElementById('barChart');
+const barLabels = document.getElementById('barLabels');
+MONTHS.forEach((m, i) => {
+  const wrap = document.createElement('div');
+  wrap.style.flex = '1';
+  wrap.style.display = 'flex';
+  wrap.style.flexDirection = 'column';
+  wrap.style.alignItems = 'center';
+  const bar = document.createElement('div');
+  bar.className = 'bar';
+  const pct = Math.round((VALUES[i] / MAX) * 72);
+  bar.style.height = pct + 'px';
+  bar.style.width = '100%';
+  bar.style.background = i === MONTHS.length - 1
+    ? 'linear-gradient(180deg, #F59E0B, #92400E)'
+    : 'linear-gradient(180deg, rgba(59,130,246,0.6), rgba(59,130,246,0.2))';
+  const lbl = document.createElement('div');
+  lbl.className = 'bar-label';
+  lbl.textContent = m;
+  wrap.appendChild(bar);
+  wrap.appendChild(lbl);
+  barChart.appendChild(wrap);
+});
+
+const TECHS = [
+  { name: 'João Mbundu', av: 'JM', done: 2, total: 4, color: '#3B82F6' },
+  { name: 'Ana Lopes', av: 'AL', done: 0, total: 3, color: '#8B5CF6' },
+  { name: 'Carlos Neto', av: 'CN', done: 4, total: 4, color: '#10B981' },
+  { name: 'Fernanda Silva', av: 'FS', done: 1, total: 3, color: '#F59E0B' },
+  { name: 'Rui Pinto', av: 'RP', done: 1, total: 2, color: '#3B82F6' },
+  { name: 'Kátia Manuel', av: 'KM', done: 5, total: 5, color: '#10B981' },
+];
+const techList = document.getElementById('techList');
+TECHS.forEach(t => {
+  const pct = t.total > 0 ? Math.round((t.done / t.total) * 100) : 0;
+  const div = document.createElement('div');
+  div.className = 'tech-item';
+  div.innerHTML = `
+    <div class="tech-avatar" style="background: ${t.color}22; color: ${t.color}">${t.av}</div>
+    <div>
+      <div class="tech-name">${t.name}</div>
+      <div class="tech-sub">${t.done}/${t.total} tarefas</div>
+    </div>
+    <div class="progress-bar">
+      <div class="progress-fill" style="width: ${pct}%; background: ${t.done === t.total ? '#10B981' : 'linear-gradient(90deg, #3B82F6, #F59E0B)'}"></div>
+    </div>
+  `;
+  techList.appendChild(div);
+});
+
+const STATUS = {
+  pendente: { label: 'Pendente', color: '#F59E0B', bg: 'rgba(245,158,11,0.1)' },
+  em_curso: { label: 'Em Curso', color: '#3B82F6', bg: 'rgba(59,130,246,0.1)' },
+  concluida: { label: 'Concluída', color: '#10B981', bg: 'rgba(16,185,129,0.1)' },
+};
+const PRIORITY = {
+  urgente: { label: 'Urgente', color: '#EF4444' },
+  alta: { label: 'Alta', color: '#F59E0B' },
+  media: { label: 'Média', color: '#3B82F6' },
+  baixa: { label: 'Baixa', color: '#10B981' },
+};
+const ORDERS = [
+  { id: 'OS-2847', client: 'Multicaixa SA', service: 'Manutenção AC', tech: 'João Mbundu', status: 'em_curso', priority: 'alta' },
+  { id: 'OS-2848', client: 'Banco BFA', service: 'Instalação CFTV', tech: 'Ana Lopes', status: 'pendente', priority: 'media' },
+  { id: 'OS-2849', client: 'Hotel Presidente', service: 'Reparo Gerador', tech: 'Carlos Neto', status: 'concluida', priority: 'urgente' },
+  { id: 'OS-2850', client: 'Sonangol EP', service: 'Manutenção Elevador', tech: 'Fernanda Silva', status: 'pendente', priority: 'baixa' },
+  { id: 'OS-2851', client: 'TPA Angola', service: 'Instalação Fibra', tech: 'Rui Pinto', status: 'em_curso', priority: 'alta' },
+  { id: 'OS-2852', client: 'Clínica Sagrada Família', service: 'UPS / Nobreak', tech: 'Kátia Manuel', status: 'concluida', priority: 'urgente' },
+];
+const osList = document.getElementById('osList');
+ORDERS.forEach(o => {
+  const s = STATUS[o.status];
+  const p = PRIORITY[o.priority];
+  const row = document.createElement('div');
+  row.className = 'os-row';
+  row.innerHTML = `
+    <span class="os-num">${o.id}</span>
+    <div>
+      <div class="os-title">${o.client}</div>
+      <div class="os-sub">${o.service}</div>
+    </div>
+    <span style="font-size: 12px;">${o.tech}</span>
+    <span style="color: ${p.color}; font-size: 11px; font-weight: 700;">● ${p.label}</span>
+    <span class="badge" style="color: ${s.color}; background: ${s.bg};">
+      <span class="badge-dot" style="background: ${s.color};"></span>${s.label}
+    </span>
+  `;
+  osList.appendChild(row);
+});
+</script>
+</body>
+</html>
