@@ -48,7 +48,7 @@ const PaymentForm = () => {
             value={telefone}
             onChange={(e) => setTelefone(e.target.value)}
             className="w-full bg-white/5 border border-white/10 rounded-lg p-3 text-white focus:border-yellow-500/50 outline-none transition"
-            placeholder="9XX XXX XXX"
+            process.env.NEXT_PUBLIC_SUPABASE_KEY
             required
           />
         </div>
